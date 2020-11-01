@@ -1,52 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Work Day Scheduler</title>
-  </head>
+</head>
 
-  <body>
+<style>
+    body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1;
+  }
+  
+  textarea{
+    background: transparent;
+    border: none;
+    resize: none;
+    color: #000000;
+    border-left: 1px solid black;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .jumbotron {
+    text-align: center;
+    background-color: transparent;
+    color: black;
+    border-radius: 0;
+    border-bottom: 10px solid black;
+  }
+  
+  .description{
+    white-space: pre-wrap;
+  }
+  
+  .time-block{
+    text-align: center;
+    border-radius: 15px;
+  }
+  
+  .row {
+    white-space: pre-wrap;
+    height: 80px;
+    border-top: 1px solid white;;
+  }
+  
+  .hour {
+    background-color: #ffffff;
+    color: #000000;
+    border-top: 1px dashed #000000;
+  }
+  
+  .past {
+    background-color: #d3d3d3;
+    color: white;
+  }
+  
+  .present {
+    background-color: #ff6961;
+    color: black;
+  }
+  
+  .future {
+    background-color: #77dd77;
+    color: black;
+  }
+  
+  .saveBtn {
+    border-left: 1px solid black;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #06AED5;
+    color: white;
+    /* padding-top: 1.75rem; */
+  }
+  
+  .saveBtn:hover {
+    font-size: 25px;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+  }
+  
+</style>
+
+
+<body>
     <header class="jumbotron">
-      <h1 class="display-3">Work Day Scheduler</h1>
-      <p class="lead">A simple calendar app for scheduling your work day</p>
-      <p id="currentDay" class="lead"></p>
+        <h1 class="display-3">Work Day Scheduler</h1>
+        <p class="lead">A simple calendar app for scheduling your work day</p>
+        <p id="currentDay" class="lead"></p>
     </header>
     <div class="container">
-      <!-- Timeblocks go here -->
+        <script>
+// variable to store and loop through scheduler
+var myDay = [
+    {
+        id: "0",
+        hour: "09",
+        time: "09",
+        meridiem: "am",
+        reminder: ""
+    },
+    {
+        id: "1",
+        hour: "10",
+        time: "10",
+        meridiem: "am",
+        reminder: ""
+    },
+    {
+        id: "2",
+        hour: "11",
+        time: "11",
+        meridiem: "am",
+        reminder: ""
+    },
+    {
+        id: "3",
+        hour: "12",
+        time: "12",
+        meridiem: "pm",
+        reminder: ""
+    },
+    {
+        id: "4",
+        hour: "01",
+        time: "13",
+        meridiem: "pm",
+        reminder: ""
+    },
+    {
+        id: "5",
+        hour: "02",
+        time: "14",
+        meridiem: "pm",
+        reminder: ""
+    },
+    {
+        id: "6",
+        hour: "03",
+        time: "15",
+        meridiem: "pm",
+        reminder: ""
+    },
+    {
+        id: "7",
+        hour: "04",
+        time: "16",
+        meridiem: "pm",
+        reminder: ""
+    },
+    {
+        id: "8",
+        hour: "05",
+        time: "17",
+        meridiem: "pm",
+        reminder: ""
+    },
+    
+]
+
+// gets data for the header date
+function getHeaderDate() {
+    var currentHeaderDate = moment().format('dddd, MMMM Do');
+    $("#currentDay").text(currentHeaderDate);
+}
+
+// saves data to localStorage
+function saveReminders() {
+    localStorage.setItem("myDay", JSON.stringify(myDay));
+}
+
+// sets any data in localStorage to the view
+function displayReminders() {
+    myDay.forEach(function (_thisHour) {
+        $(`#${_thisHour.id}`).val(_thisHour.reminder);
+    })
+}
+
+// sets any existing localStorage data to the view if it exists
+function init() {
+    var storedDay = JSON.parse(localStorage.getItem("myDay"));
+
+    if (storedDay) {
+        myDay = storedDay;
+    }
+
+    saveReminders();
+    displayReminders();
+}
+
+// loads header date
+getHeaderDate();
+
+// creates the visuals for the scheduler body
+myDay.forEach(function(thisHour) {
+    // creates timeblocks row
+    var hourRow = $("<form>").attr({
+        "class": "row"
+    });
+    $(".container").append(hourRow);
+
+    // creates time field
+    var hourField = $("<div>")
+        .text(`${thisHour.hour}${thisHour.meridiem}`)
+        .attr({
+            "class": "col-md-2 hour"
+    });
+
+    // creates schdeduler data
+    var hourPlan = $("<div>")
+        .attr({
+            "class": "col-md-9 description p-0"
+        });
+    var planData = $("<textarea>");
+    hourPlan.append(planData);
+    planData.attr("id", thisHour.id);
+    if (thisHour.time < moment().format("HH")) {
+        planData.attr ({
+            "class": "past", 
+        })
+    } else if (thisHour.time === moment().format("HH")) {
+        planData.attr({
+            "class": "present"
+        })
+    } else if (thisHour.time > moment().format("HH")) {
+        planData.attr({
+            "class": "future"
+        })
+    }
+
+    // creates save button
+    var saveButton = $("<i class='far fa-save fa-lg'></i>")
+    var savePlan = $("<button>")
+        .attr({
+            "class": "col-md-1 saveBtn"
+    });
+    savePlan.append(saveButton);
+    hourRow.append(hourField, hourPlan, savePlan);
+})
+
+// loads any existing localstorage data after components created
+init();
+
+
+// saves data to be used in localStorage
+$(".saveBtn").on("click", function(event) {
+    event.preventDefault();
+    var saveIndex = $(this).siblings(".description").children(".future").attr("id");
+    myDay[saveIndex].reminder = $(this).siblings(".description").children(".future").val();
+    console.log(saveIndex);
+    saveReminders();
+    displayReminders();
+})
+
+        </script>
+
+
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script>
-      const calendar = document.querySelector("#app-calendar");
-      console.log(calendar);
-      for (var day =1 ; day <= 31; day ++)
-      {
-
-    console.log(day);
-    calendar.insertAdjacentHTML("beforeend",`<div class="day">${day}</div>`);
-}
-  </script>
   
-  </body>
+</body>
+
 </html>
