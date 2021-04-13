@@ -1,5 +1,3 @@
-# 05 Third-Party APIs: Work Day Scheduler
-
 ================================================================
 # :sparkles:  Unit 5 Day Scheduler   :sparkles:
 ================================================================
@@ -29,11 +27,6 @@ and can visualize demo running on  [GitHub Pages](https://rakeru2006.github.io/H
 Simple calendar application that allows a user to save events for 
 each hour of the work hours  day . 
 
-
-
-## User Story
-
-```
 
 
 
@@ -107,7 +100,7 @@ Make sure to call your javascript file
 
 
 
-![demo](https://github.com/rakeru2006/HW5/blob/master/schedule?raw=true)
+![demo](https://github.com/rakeru2006/HW5/blob/master/schedule.png?raw=true)
 
 
 
