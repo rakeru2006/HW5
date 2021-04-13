@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Added link to the jQuery Library -->
+<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
+<!-- Added link to the moment Library -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+</head>
+
+<body>
+
+<h2>Use Moment</h2>
+<!-- container for Moment.js output -->
+<div id='displayMoment'></div>
+
+<h2>Use JavaScript</h2>
+<!-- container for JavaScript Date output -->
+<div id='displayJsDate'></div>
+
+<script type='text/javascript'>
+(function()
+{
+  // instantiate a moment object
+  var NowMoment = moment();
+  
+  // instantiate a JavaScript Date object
+  var NowDate = new Date();
+  
+  // display value of moment object in #displayMoment div
+  var eDisplayMoment = document.getElementById('displayMoment');
+  eDisplayMoment.innerHTML = NowMoment;
+  
+  // display value of Date object in #displayJsDate div
+  var eDisplayDate = document.getElementById('displayJsDate');
+  eDisplayDate.innerHTML = NowDate;
+})();
+</script>
+
+</body>
+</html>
+
